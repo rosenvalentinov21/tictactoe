@@ -9,11 +9,13 @@
   <version>1.0-SNAPSHOT</version>
 
   <dependencies>
+    <!-- https://mvnrepository.com/artifact/com.google.inject/guice -->
     <dependency>
       <groupId>com.google.inject</groupId>
       <artifactId>guice</artifactId>
-      <version>4.1.0</version>
+      <version>5.1.0</version>
     </dependency>
+
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
@@ -32,6 +34,13 @@
       <version>4.6.1</version>
       <scope>test</scope>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.28</version>
+    </dependency>
+
   </dependencies>
 
 

@@ -1,5 +1,6 @@
 package payment;
 
+import com.google.inject.Inject;
 import communication.Readable;
 import java.math.BigDecimal;
 
@@ -7,6 +8,7 @@ public class CoinReceiverDialog {
 
   private final Readable reader;
 
+  @Inject
   public CoinReceiverDialog(final Readable reader) {
     this.reader = reader;
   }
