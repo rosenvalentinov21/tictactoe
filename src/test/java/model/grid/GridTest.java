@@ -8,8 +8,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import exception.IllegalMoveException;
-import model.GameState;
-import model.Markers;
+import model.enums.GameState;
+import model.enums.Markers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

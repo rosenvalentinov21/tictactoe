@@ -5,7 +5,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import communication.MessageProvider;
-import model.Markers;
+import model.enums.Markers;
 import org.junit.jupiter.api.Test;
 
 class OpponentTest {
@@ -15,7 +15,8 @@ class OpponentTest {
   private final RandomSlotPositionGenerator randomSlotPositionGenerator = mock(
       RandomSlotPositionGenerator.class);
 
-  private final Opponent opponent = new Opponent(randomSlotPositionGenerator, new MessageProvider());
+  private final Opponent opponent = new Opponent(randomSlotPositionGenerator,
+      new MessageProvider());
 
   @Test
   void makeAMove_WhenEncounterEmptyPositionReturnPosition() {

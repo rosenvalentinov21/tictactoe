@@ -2,7 +2,7 @@ package model.grid;
 
 import com.google.inject.Inject;
 import communication.MessageProvider;
-import model.Markers;
+import model.enums.Markers;
 
 public class GridVisualizer {
 
@@ -30,9 +30,9 @@ public class GridVisualizer {
     messageProvider.displayMessage(row);
   }
 
-  private String getMarkerRepresentation(Markers marker) {
+  private String getMarkerRepresentation(final Markers marker) {
     if (marker == null) {
-      return " " + marker + " ";
+      return " " + null + " ";
     } else {
       return "  " + marker + "  ";
     }

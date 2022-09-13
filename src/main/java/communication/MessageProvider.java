@@ -7,5 +7,4 @@ public class MessageProvider implements Messaging {
     System.out.println(message);
   }
 
-
 }

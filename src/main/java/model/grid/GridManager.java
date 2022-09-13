@@ -3,8 +3,8 @@ package model.grid;
 import com.google.inject.Inject;
 import exception.IllegalMoveException;
 import java.util.Arrays;
-import model.GameState;
-import model.Markers;
+import model.enums.GameState;
+import model.enums.Markers;
 
 public class GridManager {
 

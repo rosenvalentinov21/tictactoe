@@ -5,17 +5,19 @@ import communication.MessageProvider;
 import communication.Messaging;
 import communication.Readable;
 import communication.Reader;
+import controller.GameController;
 import java.util.Random;
 import java.util.Scanner;
 import model.AI.Opponent;
 import model.AI.RandomSlotPositionGenerator;
-import model.Markers;
 import model.Player;
 import model.grid.GridManager;
 import model.grid.GridVisualizer;
 import model.grid.Judge;
+import model.leaderboard.HallOfFame;
+import model.view.GameDialog;
 import payment.CoinReceiverDialog;
-import view.GameDialog;
+import persistence.MySqlConnection;
 
 public class BindingModule extends AbstractModule {
 
@@ -33,5 +35,8 @@ public class BindingModule extends AbstractModule {
     bind(Messaging.class).to(MessageProvider.class);
     bind(GridVisualizer.class).asEagerSingleton();
     bind(Judge.class).asEagerSingleton();
+    bind(MySqlConnection.class).asEagerSingleton();
+    bind(HallOfFame.class).asEagerSingleton();
+    bind(GameController.class).asEagerSingleton();
   }
 }

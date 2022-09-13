@@ -2,7 +2,7 @@ package model.AI;
 
 import com.google.inject.Inject;
 import communication.MessageProvider;
-import model.Markers;
+import model.enums.Markers;
 
 public class Opponent {
 
@@ -20,16 +20,22 @@ public class Opponent {
 
   public int makeAMove(final Markers[] board) {
     int randomInt;
+    simulateDelay();
+
     while (true) {
       randomInt = randomSlotPositionGenerator.generateRandomSlotPosition();
-      try {
-        if (board[randomInt] == null) {
-          Thread.sleep(2000);
-          return randomInt;
-        }
-      } catch (InterruptedException e) {
-        messageProvider.displayMessage(e.getMessage());
+      if (board[randomInt] == null) {
+        return randomInt;
       }
+    }
+  }
+
+  private void simulateDelay() {
+    try {
+      final long DELAY_TIME = 2000L;
+      Thread.sleep(DELAY_TIME);
+    } catch (final InterruptedException e) {
+      messageProvider.displayMessage(e.getMessage());
     }
   }
 

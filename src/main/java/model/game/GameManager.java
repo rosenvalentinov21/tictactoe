@@ -3,12 +3,15 @@ package model.game;
 import com.google.inject.Inject;
 import communication.MessageProvider;
 import exception.IllegalMoveException;
+import java.sql.SQLException;
 import model.AI.Opponent;
-import model.GameState;
-import model.Markers;
 import model.Player;
+import model.enums.GameState;
+import model.enums.Markers;
 import model.grid.GridManager;
-import view.GameDialog;
+import model.leaderboard.HallOfFame;
+import model.view.GameDialog;
+import persistence.PlayerRepository;
 
 public class GameManager {
 
@@ -21,14 +24,20 @@ public class GameManager {
 
   private final MessageProvider messageProvider;
 
+  private final PlayerRepository playerRepository;
+  private final HallOfFame hallOfFame;
+
   @Inject
   public GameManager(final Player player, final Opponent opponent, final GridManager gridManager,
-      final GameDialog gameDialog, final MessageProvider messageProvider) {
+      final GameDialog gameDialog, final MessageProvider messageProvider,
+      final PlayerRepository playerRepository, final HallOfFame hallOfFame) {
     this.player = player;
     this.opponent = opponent;
     this.gridManager = gridManager;
     this.gameDialog = gameDialog;
     this.messageProvider = messageProvider;
+    this.playerRepository = playerRepository;
+    this.hallOfFame = hallOfFame;
   }
 
   public void startGame() {
@@ -42,34 +51,31 @@ public class GameManager {
       gameState = gridManager.getGameState();
     }
 
-    processGameState(gameState);
-
-    ///TODO display hall of fame
+    processGameStateOnFinish(gameState);
+    hallOfFame.displayTopThreePlayers();
   }
 
-  private Markers playTurn(Markers turn) {
-    int opponentMove;
+  private Markers playTurn(final Markers turn) {
+    Markers nextTurn = turn;
     if (turn.equals(player.getMarker())) {
-      try {
-        playerMove();
-        turn = opponent.getMarker();
-      } catch (IllegalMoveException e) {
-        messageProvider.displayMessage(e.getMessage());
-      }
-
+      nextTurn = playerMove();
     } else if (turn.equals(opponent.getMarker())) {
-      opponentMove = opponent.makeAMove(gridManager.copyBoard());
-      gridManager.placeMarkerOnBoard(opponentMove, opponent.getMarker());
-      turn = player.getMarker();
+      nextTurn = executeOpponentMove();
     }
-    return turn;
+    return nextTurn;
   }
 
-  private void processGameState(GameState gameState) {
+  private Markers executeOpponentMove() {
+    messageProvider.displayMessage("It`s opponent`s move...");
+    final int opponentMove = opponent.makeAMove(gridManager.copyBoard());
+    gridManager.placeMarkerOnBoard(opponentMove, opponent.getMarker());
+    return Markers.X;
+  }
+
+  private void processGameStateOnFinish(final GameState gameState) {
     if (gameState.equals(GameState.X)) {
       messageProvider.displayMessage("Congrats, you won!");
-      final String playerName = gameDialog.requestPlayerName();
-      ///TODO persist Player to DB
+      savePlayerInDB();
     } else if (gameState.equals(GameState.O)) {
       messageProvider.displayMessage("Better luck next time!");
     } else if (gameState.equals(GameState.DRAW)) {
@@ -77,11 +83,25 @@ public class GameManager {
     }
   }
 
-  private void playerMove() throws IllegalMoveException {
-    int playerMove;
-    playerMove = gameDialog.requestPlayerMove();
-    gridManager.placeMarkerOnBoard(playerMove, player.getMarker());
+  private void savePlayerInDB() {
+    final String playerName = gameDialog.requestPlayerName();
+    player.setName(playerName);
+    try {
+      playerRepository.savePlayerInDB(player);
+    } catch (final SQLException ex) {
+      messageProvider.displayMessage("There was a problem with persistence to db");
+    }
   }
 
+  private Markers playerMove() {
+    final int playerMove = gameDialog.requestPlayerMove();
+    try {
+      gridManager.placeMarkerOnBoard(playerMove, player.getMarker());
+      return Markers.O;
+    } catch (final IllegalMoveException e) {
+      messageProvider.displayMessage("You cannot place your marker there.");
+      return Markers.X;
+    }
+  }
 
 }
