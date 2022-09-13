@@ -6,8 +6,6 @@ import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
-import payment.CoinReceiver;
-import payment.CoinReceiverDialog;
 
 class CoinReceiverTest {
 

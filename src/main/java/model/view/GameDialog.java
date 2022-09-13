@@ -1,4 +1,4 @@
-package view;
+package model.view;
 
 import com.google.inject.Inject;
 import communication.Messaging;
@@ -32,8 +32,6 @@ public class GameDialog {
       if (validatePosition(position)) {
         return position - 1;
       } else {
-        reader.readNextLine();
-
         messageProvider.displayMessage("Please enter a valid position between 1 and 9.");
       }
     }
@@ -42,9 +40,12 @@ public class GameDialog {
   private int readUserInput() {
     int position;
     try {
-      position = reader.readNextInteger();
+      position = Integer.parseInt(reader.readNextLine());
     } catch (InputMismatchException e) {
       position = 0;
+    } catch (NumberFormatException e) {
+      position = 0;
+      messageProvider.displayMessage("Please enter a valid number.");
     }
     return position;
   }

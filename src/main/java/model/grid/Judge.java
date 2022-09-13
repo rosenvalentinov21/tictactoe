@@ -1,23 +1,13 @@
 package model.grid;
 
-import model.GameState;
-import model.Markers;
+import model.enums.GameState;
+import model.enums.Markers;
 
 public class Judge {
 
   public GameState checkForWinner(final Markers[] board) {
     for (int position = 0; position < board.length; position++) {
-      String line = switch (position) {
-        case 0 -> stringifyMarkers(board[0], board[1], board[2]);
-        case 1 -> stringifyMarkers(board[3], board[4], board[5]);
-        case 2 -> stringifyMarkers(board[6], board[7], board[8]);
-        case 3 -> stringifyMarkers(board[0], board[3], board[6]);
-        case 4 -> stringifyMarkers(board[1], board[4], board[7]);
-        case 5 -> stringifyMarkers(board[2], board[5], board[8]);
-        case 6 -> stringifyMarkers(board[0], board[4], board[8]);
-        case 7 -> stringifyMarkers(board[2], board[4], board[6]);
-        default -> null;
-      };
+      String line = checkWinCombination(board, position);
 
       final GameState winner = getWinnerIfExistent(line);
       if (winner != null) {
@@ -25,6 +15,24 @@ public class Judge {
       }
     }
 
+    return checkForNonWinningGameState(board);
+  }
+
+  private String checkWinCombination(final Markers[] board,final int position) {
+    return switch (position) {
+      case 0 -> stringifyMarkers(board[0], board[1], board[2]);
+      case 1 -> stringifyMarkers(board[3], board[4], board[5]);
+      case 2 -> stringifyMarkers(board[6], board[7], board[8]);
+      case 3 -> stringifyMarkers(board[0], board[3], board[6]);
+      case 4 -> stringifyMarkers(board[1], board[4], board[7]);
+      case 5 -> stringifyMarkers(board[2], board[5], board[8]);
+      case 6 -> stringifyMarkers(board[0], board[4], board[8]);
+      case 7 -> stringifyMarkers(board[2], board[4], board[6]);
+      default -> null;
+    };
+  }
+
+  private GameState checkForNonWinningGameState(final Markers[] board) {
     for (int position = 0; position <= board.length; position++) {
       if (board[position] == null) {
         break;
@@ -35,7 +43,7 @@ public class Judge {
     return GameState.IN_PROGRESS;
   }
 
-  private GameState getWinnerIfExistent(String line) {
+  private GameState getWinnerIfExistent(final String line) {
     if (line != null && line.equals("XXX")) {
       return GameState.X;
     } else if (line != null && line.equals("OOO")) {
@@ -54,7 +62,7 @@ public class Judge {
     return line;
   }
 
-  private String concatMarkerIfNotNull(String line, final Markers marker) {
+  private String concatMarkerIfNotNull(final String line, final Markers marker) {
     if (marker != null) {
       return line.concat(String.valueOf(marker));
     } else {

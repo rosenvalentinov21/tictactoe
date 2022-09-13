@@ -9,23 +9,27 @@ import static org.mockito.Mockito.when;
 import communication.MessageProvider;
 import java.util.UUID;
 import model.AI.Opponent;
-import model.GameState;
-import model.Markers;
+import model.enums.GameState;
+import model.enums.Markers;
 import model.Player;
 import model.grid.GridManager;
+import model.leaderboard.HallOfFame;
 import org.junit.jupiter.api.Test;
-import view.GameDialog;
+import persistence.PlayerRepository;
+import model.view.GameDialog;
 
 class GameManagerTest {
 
   private final MessageProvider messageProvider = new MessageProvider();
-  private final Player player = new Player();
+  private final Player player = new Player(UUID.randomUUID().toString().substring(0, 5));
   private final Opponent opponent = mock(Opponent.class);
   private final GameDialog gameDialog = mock(GameDialog.class);
   private final GridManager gridManager = mock(GridManager.class);
+  private final PlayerRepository playerRepository = mock(PlayerRepository.class);
+  private final HallOfFame hallOfFame = mock(HallOfFame.class);
 
   private final GameManager gameManager = new GameManager(player, opponent, gridManager,
-      gameDialog, messageProvider);
+      gameDialog, messageProvider, playerRepository, hallOfFame);
 
   @Test
   void startGame_WhenGameStateGetsWinner_ShouldAskForPlayerName() {
@@ -47,7 +51,7 @@ class GameManagerTest {
   }
 
   @Test
-  void startGame_AfterPlayerMove_ShouldAskOpponentForInput(){
+  void startGame_AfterPlayerMove_ShouldAskOpponentForInput() {
     when(gridManager.getGameState()).thenReturn(GameState.IN_PROGRESS,
         GameState.X);
     when(opponent.getMarker()).thenReturn(Markers.O);

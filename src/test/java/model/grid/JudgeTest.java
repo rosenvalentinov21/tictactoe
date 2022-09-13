@@ -2,8 +2,8 @@ package model.grid;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import model.GameState;
-import model.Markers;
+import model.enums.GameState;
+import model.enums.Markers;
 import org.junit.jupiter.api.Test;
 
 class JudgeTest {
@@ -23,7 +23,7 @@ class JudgeTest {
   }
 
   @Test
-  void checkForDraw_WhenThereIsDrawCondition_ShouldReturnDrawState(){
+  void checkForDraw_WhenThereIsDrawCondition_ShouldReturnDrawState() {
     final Markers[] board = new Markers[9];
 
     createDrawCondition(board);
@@ -34,7 +34,7 @@ class JudgeTest {
   }
 
   @Test
-  void checkForInProgress_WhenGameIsInProgress_ShouldReturnInProgress(){
+  void checkForInProgress_WhenGameIsInProgress_ShouldReturnInProgress() {
     final Markers[] board = new Markers[9];
 
     final GameState EXPECTED_GAME_STATE = GameState.IN_PROGRESS;

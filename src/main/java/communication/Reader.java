@@ -18,10 +18,4 @@ public class Reader implements Readable {
     return scanner.nextLine();
   }
 
-  @Override
-  public int readNextInteger() {
-    final int value = scanner.nextInt();
-    scanner.nextLine();
-    return value;
-  }
 }

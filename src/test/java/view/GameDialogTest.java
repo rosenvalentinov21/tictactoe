@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import communication.MessageProvider;
 import communication.Readable;
 import java.util.UUID;
+import model.view.GameDialog;
 import org.junit.jupiter.api.Test;
 
 class GameDialogTest {
@@ -16,9 +17,9 @@ class GameDialogTest {
 
   @Test
   void requestPlayerMove_WhenValidInputShouldReturnInput() {
-    final int INPUT = 5;
+    final String INPUT = "5";
     final int EXPECTED_OUTPUT = 4;
-    when(reader.readNextInteger()).thenReturn(INPUT);
+    when(reader.readNextLine()).thenReturn(INPUT);
 
     final int actualValue = gameDialog.requestPlayerMove();
     assertEquals(EXPECTED_OUTPUT, actualValue);
@@ -26,10 +27,10 @@ class GameDialogTest {
 
   @Test
   void requestPlayerMove_WhenFirstInputIsInvalidShouldRequestNewAndReturn() {
-    final int INVALID_INPUT = 100;
-    final int VALID_INPUT = 5;
+    final String INVALID_INPUT = "100";
+    final String VALID_INPUT = "5";
     final int EXPECTED_OUTPUT = 4;
-    when(reader.readNextInteger()).thenReturn(INVALID_INPUT, VALID_INPUT);
+    when(reader.readNextLine()).thenReturn(INVALID_INPUT, VALID_INPUT);
 
     final int actualValue = gameDialog.requestPlayerMove();
     assertEquals(EXPECTED_OUTPUT, actualValue);
