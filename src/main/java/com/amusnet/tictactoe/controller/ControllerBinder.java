@@ -6,8 +6,8 @@ public class ControllerBinder extends PrivateModule {
 
   @Override
   protected void configure() {
-   bind(GameController.class).asEagerSingleton();
+    bind(GameController.class).asEagerSingleton();
 
-   expose(GameController.class);
+    expose(GameController.class);
   }
 }
