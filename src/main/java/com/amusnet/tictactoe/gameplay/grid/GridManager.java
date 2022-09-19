@@ -28,6 +28,10 @@ public class GridManager {
     }
   }
 
+  public void resetBoard() {
+    Arrays.fill(board, null);
+  }
+
   public Markers getMarkerOnPosition(final int position) {
     return board[position];
   }

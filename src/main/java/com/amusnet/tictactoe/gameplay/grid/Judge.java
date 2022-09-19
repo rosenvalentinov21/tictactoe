@@ -18,7 +18,7 @@ public class Judge {
     return checkForNonWinningGameState(board);
   }
 
-  private String checkWinCombination(final Markers[] board,final int position) {
+  private String checkWinCombination(final Markers[] board, final int position) {
     return switch (position) {
       case 0 -> stringifyMarkers(board[0], board[1], board[2]);
       case 1 -> stringifyMarkers(board[3], board[4], board[5]);
