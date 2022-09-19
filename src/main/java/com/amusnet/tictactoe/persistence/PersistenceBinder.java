@@ -10,5 +10,6 @@ public class PersistenceBinder extends PrivateModule {
     bind(PlayerRepository.class).asEagerSingleton();
 
     expose(PlayerRepository.class);
+    expose(MySqlConnection.class);
   }
 }

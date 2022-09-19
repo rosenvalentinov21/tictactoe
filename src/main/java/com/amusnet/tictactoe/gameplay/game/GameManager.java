@@ -53,6 +53,7 @@ public class GameManager {
 
     processGameStateOnFinish(gameState);
     hallOfFame.displayTopThreePlayers();
+    gridManager.resetBoard();
   }
 
   private Markers playTurn(final Markers turn) {
@@ -89,7 +90,8 @@ public class GameManager {
     try {
       playerRepository.savePlayerInDB(player);
     } catch (final SQLException ex) {
-      messageProvider.displayMessage("There was a problem with com.amusnet.tictactoe.persistence to db");
+      messageProvider.displayMessage(
+          "There was a problem with com.amusnet.tictactoe.persistence to db");
     }
   }
 

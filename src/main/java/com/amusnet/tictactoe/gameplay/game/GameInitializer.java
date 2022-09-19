@@ -16,7 +16,6 @@ public class GameInitializer {
   private final Messaging messageProvider;
   private final Readable reader;
   private final MySqlConnection mySqlConnection;
-
   private final BigDecimal GAME_PRICE = BigDecimal.TEN;
 
   @Inject

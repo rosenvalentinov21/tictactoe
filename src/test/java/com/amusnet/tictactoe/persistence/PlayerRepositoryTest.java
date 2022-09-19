@@ -1,16 +1,18 @@
 package com.amusnet.tictactoe.persistence;
 
 import com.amusnet.tictactoe.communication.MessageProvider;
+import com.amusnet.tictactoe.gameplay.player.Player;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
-import com.amusnet.tictactoe.gameplay.player.Player;
 import org.junit.jupiter.api.Test;
 
 class PlayerRepositoryTest {
 
   private final MessageProvider messageProvider = new MessageProvider();
-  private final MySqlConnection mySqlConnection = new MySqlConnection();
+  private final MySqlConnection mySqlConnection = new MySqlConnection(
+      "jdbc:mysql://localhost:3306/leaderboard",
+      "root", "1234");
   private final PlayerRepository playerRepository = new PlayerRepository(mySqlConnection,
       messageProvider);
 
